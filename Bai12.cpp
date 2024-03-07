@@ -3,13 +3,13 @@
 using namespace std;
 
 // Hàm kiểm tra xem một ký tự có phải là toán tử hay không
-bool isOperator(char c)
+bool isOp(char c)
 {
     return (c == '+' || c == '-' || c == '*' || c == '/');
 }
 
 // Hàm ưu tiên của các toán tử
-int getPriority(char op)
+int get(char op)
 {
     if (op == '+' || op == '-')
         return 1;
@@ -21,7 +21,7 @@ int getPriority(char op)
 // Hàm chuyển đổi biểu thức trung tố sang hậu tố
 string treatment(string s)
 {
-    stack<char> operators;
+    stack<char> op;
     string postfix = "";
 
     for (char &c : s)
@@ -32,33 +32,33 @@ string treatment(string s)
         }
         else if (c == '(')
         {
-            operators.push(c);
+            op.push(c);
         }
         else if (c == ')')
         {
-            while (!operators.empty() && operators.top() != '(')
+            while (!op.empty() && op.top() != '(')
             {
-                postfix += operators.top();
-                operators.pop();
+                postfix += op.top();
+                op.pop();
             }
-            operators.pop(); // Loại bỏ '(' khỏi ngăn xếp
+            op.pop(); // Loại bỏ '(' khỏi ngăn xếp
         }
-        else if (isOperator(c))
+        else if (isOp(c))
         {
-            while (!operators.empty() && getPriority(operators.top()) >= getPriority(c))
+            while (!op.empty() && get(op.top()) >= get(c))
             {
-                postfix += operators.top();
-                operators.pop();
+                postfix += op.top();
+                op.pop();
             }
-            operators.push(c);
+            op.push(c);
         }
     }
 
     // Đưa toàn bộ toán tử còn lại trong ngăn xếp vào biểu thức hậu tố
-    while (!operators.empty())
+    while (!op.empty())
     {
-        postfix += operators.top();
-        operators.pop();
+        postfix += op.top();
+        op.pop();
     }
 
     return postfix;
@@ -67,13 +67,11 @@ string treatment(string s)
 int main()
 {
     string s;
-
-    cout << "Nhap bieu thuc trung to: ";
     getline(cin, s);
 
     string post = treatment(s);
 
-    cout << "Bieu thuc hau to tuong ung: " << post << endl;
+    cout << post << endl;
 
     return 0;
 }
