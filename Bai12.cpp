@@ -1,13 +1,11 @@
 #include <bits/stdc++.h>
-
 using namespace std;
-
 // Hàm kiểm tra xem một ký tự có phải là toán tử hay không
 bool isOp(char c)
 {
+    
     return (c == '+' || c == '-' || c == '*' || c == '/');
 }
-
 // Hàm ưu tiên của các toán tử
 int get(char op)
 {
@@ -66,12 +64,11 @@ string treatment(string s)
 
 int main()
 {
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
     string s;
     getline(cin, s);
-
     string post = treatment(s);
-
     cout << post << endl;
-
     return 0;
 }
